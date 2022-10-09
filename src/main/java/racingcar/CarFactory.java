@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class ObjectFactory {
+public final class CarFactory {
 
     private static final MovePolicy DEFAULT_CAR_MOVE_POLICY = new OneStepMovePolicy();
     private static final MoveCondition DEFAULT_CAR_MOVE_CONDITION = new SixtyPercentRandomMoveCondition();
 
-    private ObjectFactory() {
+    private CarFactory() {
     }
 
     public static Car getDefaultCarInstance(final String carName) {

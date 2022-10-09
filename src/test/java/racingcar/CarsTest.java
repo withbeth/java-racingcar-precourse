@@ -14,21 +14,21 @@ public class CarsTest {
     @Test
     void nullCarNames() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> ObjectFactory.getCarsInstance(null))
+            .isThrownBy(() -> CarFactory.getCarsInstance(null))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
     @Test
     void emptyCarNames() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> ObjectFactory.getCarsInstance(Collections.emptyList()))
+            .isThrownBy(() -> CarFactory.getCarsInstance(Collections.emptyList()))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
     @Test
     void containsInvalidCarName() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> ObjectFactory.getCarsInstance(
+            .isThrownBy(() -> CarFactory.getCarsInstance(
                 Arrays.asList("with", null, "beth", "", "foo", "foobar")))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }

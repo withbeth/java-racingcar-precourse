@@ -22,11 +22,11 @@ public class CarTest {
     @Test
     void nullOrSpace() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> ObjectFactory.getDefaultCarInstance(null))
+            .isThrownBy(() -> CarFactory.getDefaultCarInstance(null))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> ObjectFactory.getDefaultCarInstance(""))
+            .isThrownBy(() -> CarFactory.getDefaultCarInstance(""))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
@@ -34,14 +34,14 @@ public class CarTest {
     @ValueSource(strings = {"foobar", "foobarx", "hogehoge"})
     void longName(final String longName) {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> ObjectFactory.getDefaultCarInstance(longName))
+            .isThrownBy(() -> CarFactory.getDefaultCarInstance(longName))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"f", "fo", "foo", "foob", "fooba"})
     void validName(final String validName) {
-        assertThatCode(() -> ObjectFactory.getDefaultCarInstance(validName))
+        assertThatCode(() -> CarFactory.getDefaultCarInstance(validName))
             .doesNotThrowAnyException();
     }
 
@@ -61,7 +61,7 @@ public class CarTest {
 
     @Test
     void move_defaultPolicy_defaultCondition() {
-        final Car car = ObjectFactory.getDefaultCarInstance("beth");
+        final Car car = CarFactory.getDefaultCarInstance("beth");
         assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
         car.move();
         assertThat(car.getDistance()).isIn(Distance.ZERO, Distance.ONE);
