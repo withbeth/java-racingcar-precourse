@@ -2,7 +2,7 @@ package racingcar;
 
 import camp.nextstep.edu.missionutils.Randoms;
 
-public class SixtyPercentMoveCondition implements RandomMoveCondition {
+public class SixtyPercentRandomMoveCondition implements RandomMoveCondition {
 
     private static final int MIN_RANDOM_NUMBER = 0;
     private static final int MAX_RANDOM_NUMBER = 9;

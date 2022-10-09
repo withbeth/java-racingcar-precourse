@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.RepeatedTest;
 
-class SixtyPercentMoveConditionTest {
+class SixtyPercentRandomMoveConditionTest {
 
-    private static final SixtyPercentMoveCondition condition = new SixtyPercentMoveCondition();
+    private static final SixtyPercentRandomMoveCondition condition = new SixtyPercentRandomMoveCondition();
 
     @RepeatedTest(value = 10)
     void nearlySixtyPercentMovable() {

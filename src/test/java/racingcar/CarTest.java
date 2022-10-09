@@ -11,12 +11,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class CarTest {
 
+    // TODO
     private static final String EXCEPTION_MESSAGE_PREFIX = "[ERROR]";
+
+    private static final MovePolicy DEFAULT_MOVE_POLICY = new OneStepMovePolicy();
+    private static final MovePolicy GIANT_MOVE_POLICY = () -> Distance.from(75);
+    private static final MoveCondition DEFAULT_MOVE_CONDITION = new SixtyPercentRandomMoveCondition();
+    private static final MoveCondition ALWAYS_MOVE_CONDITION = () -> true;
 
     @Test
     void nullOrSpace() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> new Car(null))
+            .isThrownBy(() -> ObjectFactory.getDefaultCarInstance(null))
+            .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> ObjectFactory.getDefaultCarInstance(""))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
@@ -24,71 +34,61 @@ public class CarTest {
     @ValueSource(strings = {"foobar", "foobarx", "hogehoge"})
     void longName(final String longName) {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> new Car(longName))
+            .isThrownBy(() -> ObjectFactory.getDefaultCarInstance(longName))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"f", "fo", "foo", "foob", "fooba"})
     void validName(final String validName) {
-        assertThatCode(() -> new Car(validName))
+        assertThatCode(() -> ObjectFactory.getDefaultCarInstance(validName))
             .doesNotThrowAnyException();
     }
 
     @Test
-    void invalidRandomValueCreator() {
+    void nullMovePolicy() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> new Car("beth", null))
+            .isThrownBy(() -> new Car("beth", null, DEFAULT_MOVE_CONDITION))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {-10, -5, -2, -1, 10, 11, 12, 15})
-    void invalidRandomValue(final int randomValue) {
+    @Test
+    void nullMoveCondition() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> new Car("beth", () -> randomValue))
+            .isThrownBy(() -> new Car("beth", DEFAULT_MOVE_POLICY, null))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
-    void validRandomValue(final int randomValue) {
-        assertThatCode(() -> new Car("beth", () -> randomValue))
-            .doesNotThrowAnyException();
+    @Test
+    void move_defaultPolicy_defaultCondition() {
+        final Car car = ObjectFactory.getDefaultCarInstance("beth");
+        assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
+        car.move();
+        assertThat(car.getDistance()).isIn(Distance.ZERO, Distance.ONE);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    void move_RandomValueLessThanThreshold(final int randomValue) {
-        final Car car = new Car("beth", () -> randomValue);
-
-        // Test consistency also
-        for (int i = 0; i < 100000; i++) {
-
-            final int distanceBeforeMove = car.getDistance();
-
-            car.move();
-
-            assertThat(distanceBeforeMove).isEqualTo(car.getDistance());
-
-        }
+    @Test
+    void move_defaultPolicy_customCondition() {
+        final Car car = new Car("beth", DEFAULT_MOVE_POLICY, ALWAYS_MOVE_CONDITION);
+        assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
+        car.move();
+        assertThat(car.getDistance()).isEqualTo(Distance.ONE);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {4, 5, 6, 7, 8, 9})
-    void move_RandomValueGreaterThanThreshold(final int randomValue) {
-        final Car car = new Car("beth", () -> randomValue);
+    @Test
+    void move_customPolicy_defaultCondition() {
+        final Car car = new Car("beth", GIANT_MOVE_POLICY, DEFAULT_MOVE_CONDITION);
+        assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
+        car.move();
+        assertThat(car.getDistance()).isIn(Distance.ZERO, Distance.from(75));
+    }
 
-        // Test consistency also
-        for (int i = 0; i < 100000; i++) {
-
-            final int distanceBeforeMove = car.getDistance();
-
-            car.move();
-
-            assertThat(distanceBeforeMove + 1).isEqualTo(car.getDistance());
-
-        }
+    @Test
+    void move_customPolicy_customCondition() {
+        final Car car = new Car("beth", GIANT_MOVE_POLICY, ALWAYS_MOVE_CONDITION);
+        assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
+        car.move();
+        assertThat(car.getDistance()).isEqualTo(Distance.from(75));
     }
 
 }
