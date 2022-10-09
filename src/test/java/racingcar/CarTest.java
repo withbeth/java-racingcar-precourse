@@ -91,4 +91,20 @@ public class CarTest {
         assertThat(car.getDistance()).isEqualTo(Distance.from(75));
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 10})
+    void move_movingForwardBasedOnPolicyAndCondition(final int count) {
+        final Car car = new Car("beth", GIANT_MOVE_POLICY, ALWAYS_MOVE_CONDITION);
+        for (int i = 0; i < count; i++) {
+            Distance prevDistance = car.getDistance();
+
+            car.move();
+
+            assertThat(car.getDistance()).isEqualTo(prevDistance.plus(Distance.from(75)));
+
+            prevDistance = car.getDistance();
+        }
+
+    }
+
 }
