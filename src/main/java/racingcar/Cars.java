@@ -25,4 +25,10 @@ public final class Cars {
                 ExceptionMessageUtils.createdExceptionMessage("cars cannot contain null object"));
         }
     }
+
+    public void move() {
+        for (final Car car : cars) {
+            car.move();
+        }
+    }
 }

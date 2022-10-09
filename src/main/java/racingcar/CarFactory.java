@@ -6,27 +6,49 @@ import java.util.List;
 
 public final class CarFactory {
 
-    private static final MovePolicy DEFAULT_CAR_MOVE_POLICY = new OneStepMovePolicy();
-    private static final MoveCondition DEFAULT_CAR_MOVE_CONDITION = new SixtyPercentRandomMoveCondition();
-
     private CarFactory() {
     }
 
-    public static Car getDefaultCarInstance(final String carName) {
-        return new Car(carName, DEFAULT_CAR_MOVE_POLICY, DEFAULT_CAR_MOVE_CONDITION);
+    public static MoveCondition getDefaultCarMoveCondition() {
+        return new SixtyPercentRandomMoveCondition();
     }
 
-    public static Cars getCarsInstance(final List<String> carNames) {
-        return new Cars(mapToCarList(carNames));
+    public static MovePolicy getDefaultCarMovePolicy() {
+        return new OneStepMovePolicy();
     }
 
-    private static List<Car> mapToCarList(final List<String> carNames) {
+    public static Car getCar(
+        final String carName,
+        final MovePolicy movePolicy,
+        final MoveCondition moveCondition
+    ) {
+        return new Car(carName, movePolicy, moveCondition);
+    }
+
+    public static Car getDefaultCar(final String carName) {
+        return getCar(carName, getDefaultCarMovePolicy(), getDefaultCarMoveCondition());
+    }
+
+    public static Cars getDefaultCars(final List<String> carNames) {
+        return getCars(
+            mapToCarList(carNames, getDefaultCarMovePolicy(), getDefaultCarMoveCondition()));
+    }
+
+    public static Cars getCars(final List<Car> cars) {
+        return new Cars(cars);
+    }
+
+    private static List<Car> mapToCarList(
+        final List<String> carNames,
+        final MovePolicy movePolicy,
+        final MoveCondition moveCondition
+    ) {
         if (carNames == null) {
             return Collections.emptyList();
         }
         final List<Car> cars = new ArrayList<>(carNames.size());
         for (final String carName : carNames) {
-            cars.add(getDefaultCarInstance(carName));
+            cars.add(getCar(carName, movePolicy, moveCondition));
         }
         return cars;
     }
