@@ -18,14 +18,23 @@ public class Distance {
     }
 
     public Distance plus(final Distance other) {
+        if (other == null) {
+            return from(this.value);
+        }
         return from(this.value + other.value);
     }
 
     public boolean isLessThan(final Distance other) {
+        if (other == null) {
+            return false;
+        }
         return this.value < other.value;
     }
 
     public boolean isGreaterThanOrEqual(final Distance other) {
+        if (other == null) {
+            return false;
+        }
         return this.value >= other.value;
     }
 
