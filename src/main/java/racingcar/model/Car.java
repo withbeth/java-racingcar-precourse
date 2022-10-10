@@ -1,4 +1,6 @@
-package racingcar;
+package racingcar.model;
+
+import racingcar.ExceptionMessageUtils;
 
 public final class Car {
 
@@ -22,7 +24,7 @@ public final class Car {
     private static void validateMoveCondition(final MoveCondition moveCondition) {
         if (moveCondition == null) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage(
+                ExceptionMessageUtils.createExceptionMessage(
                     "MoveCondition cannot be null"));
         }
     }
@@ -30,7 +32,7 @@ public final class Car {
     private static void validateMovePolicy(final MovePolicy movePolicy) {
         if (movePolicy == null) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage(
+                ExceptionMessageUtils.createExceptionMessage(
                     "MovePolicy cannot be null"));
         }
     }
@@ -38,15 +40,15 @@ public final class Car {
     private static void validateName(final String name) {
         if (name == null) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage("car name cannot be null"));
+                ExceptionMessageUtils.createExceptionMessage("car name cannot be null"));
         }
         if (name.isEmpty()) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage("car name cannot be empty"));
+                ExceptionMessageUtils.createExceptionMessage("car name cannot be empty"));
         }
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage("car name is too long"));
+                ExceptionMessageUtils.createExceptionMessage("car name is too long"));
         }
     }
 

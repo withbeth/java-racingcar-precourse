@@ -1,6 +1,7 @@
-package racingcar;
+package racingcar.model;
 
 import java.util.Objects;
+import racingcar.ExceptionMessageUtils;
 
 public class PositiveNumber {
 
@@ -21,13 +22,15 @@ public class PositiveNumber {
         try {
             return Integer.parseInt(value);
         } catch (final NumberFormatException exception) {
-            throw new IllegalArgumentException("[ERROR] value should be positive number");
+            throw new IllegalArgumentException(
+                ExceptionMessageUtils.createExceptionMessage("value should be positive number"));
         }
     }
 
     private static void validateValue(final int value) {
         if (value <= 0) {
-            throw new IllegalArgumentException("[ERROR] value should be positive number");
+            throw new IllegalArgumentException(
+                ExceptionMessageUtils.createExceptionMessage("value should be positive number"));
         }
     }
 

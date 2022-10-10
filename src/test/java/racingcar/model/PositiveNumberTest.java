@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class PositiveNumberTest {
 
-    // TODO
     private static final String EXCEPTION_MESSAGE_PREFIX = "[ERROR]";
 
     @ParameterizedTest

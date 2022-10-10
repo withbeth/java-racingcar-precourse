@@ -1,9 +1,10 @@
-package racingcar;
+package racingcar.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import racingcar.ExceptionMessageUtils;
 
 public final class Cars {
 
@@ -17,15 +18,15 @@ public final class Cars {
     private static void validateCars(final List<Car> cars) {
         if (cars == null) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage("cars cannot be null"));
+                ExceptionMessageUtils.createExceptionMessage("cars cannot be null"));
         }
         if (cars.isEmpty()) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage("cars cannot be empty"));
+                ExceptionMessageUtils.createExceptionMessage("cars cannot be empty"));
         }
         if (cars.contains(null)) {
             throw new IllegalArgumentException(
-                ExceptionMessageUtils.createdExceptionMessage("cars cannot contain null object"));
+                ExceptionMessageUtils.createExceptionMessage("cars cannot contain null object"));
         }
     }
 

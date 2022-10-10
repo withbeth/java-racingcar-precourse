@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.model;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,10 +8,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.CarFactory;
 
 public class CarTest {
 
-    // TODO
     private static final String EXCEPTION_MESSAGE_PREFIX = "[ERROR]";
 
     private static final MovePolicy GIANT_STEP_MOVE_POLICY = () -> Distance.from(75);

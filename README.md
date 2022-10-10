@@ -93,7 +93,7 @@
 
 [x] 개체생성과 이용분리를 위한 Factory개체 도입.
 
-[] 적절한 커스텀 Exceptions 생성.
+[] 적절한 커스텀 IAE Exceptions 생성.
 
 ## Decision Note
 

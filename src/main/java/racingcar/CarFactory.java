@@ -3,6 +3,12 @@ package racingcar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import racingcar.model.Car;
+import racingcar.model.Cars;
+import racingcar.model.MoveCondition;
+import racingcar.model.MovePolicy;
+import racingcar.model.OneStepMovePolicy;
+import racingcar.model.SixtyPercentRandomMoveCondition;
 
 public final class CarFactory {
 
@@ -38,26 +44,6 @@ public final class CarFactory {
     public static Cars getDefaultCars(final String carNames) {
         return getCars(
             mapToCarList(carNames, getDefaultCarMovePolicy(), getDefaultCarMoveCondition()));
-    }
-
-    public static Cars getDefaultCars(final List<String> carNames) {
-        return getCars(
-            mapToCarList(carNames, getDefaultCarMovePolicy(), getDefaultCarMoveCondition()));
-    }
-
-    private static List<Car> mapToCarList(
-        final List<String> carNames,
-        final MovePolicy movePolicy,
-        final MoveCondition moveCondition
-    ) {
-        if (carNames == null) {
-            return Collections.emptyList();
-        }
-        final List<Car> cars = new ArrayList<>(carNames.size());
-        for (final String carName : carNames) {
-            cars.add(getCar(carName, movePolicy, moveCondition));
-        }
-        return cars;
     }
 
     private static List<Car> mapToCarList(

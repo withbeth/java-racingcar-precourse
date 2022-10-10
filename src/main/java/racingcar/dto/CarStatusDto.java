@@ -1,4 +1,6 @@
-package racingcar;
+package racingcar.dto;
+
+import racingcar.model.Distance;
 
 public final class CarStatusDto {
 

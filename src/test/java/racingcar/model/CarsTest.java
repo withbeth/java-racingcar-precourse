@@ -1,19 +1,18 @@
-package racingcar;
+package racingcar.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.CarFactory;
 
 public class CarsTest {
 
-    // TODO
     private static final String EXCEPTION_MESSAGE_PREFIX = "[ERROR]";
 
     private Car always50MoveCar;
@@ -32,9 +31,6 @@ public class CarsTest {
     @Test
     void nullCarNames() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> CarFactory.getDefaultCars((List<String>) null))
-            .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
-        assertThatExceptionOfType(IllegalArgumentException.class)
             .isThrownBy(() -> CarFactory.getDefaultCars((String) null))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
@@ -42,15 +38,14 @@ public class CarsTest {
     @Test
     void emptyCarNames() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> CarFactory.getDefaultCars(Collections.emptyList()))
+            .isThrownBy(() -> CarFactory.getDefaultCars(""))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
     @Test
     void containsInvalidCarName() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> CarFactory.getDefaultCars(
-                Arrays.asList("with", null, "beth", "", "foo", "foobar")))
+            .isThrownBy(() -> CarFactory.getDefaultCars("with, null, beth, , foo, foobar"))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 
