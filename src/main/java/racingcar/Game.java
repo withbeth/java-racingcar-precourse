@@ -41,7 +41,7 @@ public final class Game {
         return coins <= 0;
     }
 
-    public List<CarStatusDto> getStatus() {
+    public List<CarStatusDto> getCarsStatus() {
         return mapToCarStatuses(cars.getCars());
     }
 
