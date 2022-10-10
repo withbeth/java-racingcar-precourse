@@ -6,6 +6,8 @@ import java.util.List;
 
 public final class CarFactory {
 
+    private static final String CAR_NAME_DELIMITER = ",";
+
     private CarFactory() {
     }
 
@@ -33,6 +35,11 @@ public final class CarFactory {
         return new Cars(cars);
     }
 
+    public static Cars getDefaultCars(final String carNames) {
+        return getCars(
+            mapToCarList(carNames, getDefaultCarMovePolicy(), getDefaultCarMoveCondition()));
+    }
+
     public static Cars getDefaultCars(final List<String> carNames) {
         return getCars(
             mapToCarList(carNames, getDefaultCarMovePolicy(), getDefaultCarMoveCondition()));
@@ -49,6 +56,21 @@ public final class CarFactory {
         final List<Car> cars = new ArrayList<>(carNames.size());
         for (final String carName : carNames) {
             cars.add(getCar(carName, movePolicy, moveCondition));
+        }
+        return cars;
+    }
+
+    private static List<Car> mapToCarList(
+        final String carNames,
+        final MovePolicy movePolicy,
+        final MoveCondition moveCondition
+    ) {
+        if (carNames == null || carNames.isEmpty()) {
+            return Collections.emptyList();
+        }
+        final List<Car> cars = new ArrayList<>();
+        for (final String carName : carNames.split(CAR_NAME_DELIMITER)) {
+            cars.add(getCar(carName.trim(), movePolicy, moveCondition));
         }
         return cars;
     }

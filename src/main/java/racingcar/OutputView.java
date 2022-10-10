@@ -10,6 +10,13 @@ public final class OutputView {
     private static final String COMMA = ",";
     private static final String SPACE = " ";
 
+    private OutputView() {
+    }
+
+    public static void printException(final IllegalArgumentException exception) {
+        System.out.println(exception.getMessage());
+    }
+
     public static void printWinners(final List<String> winnerCarNames) {
         System.out.println(createWinnersMessage(winnerCarNames));
     }
@@ -92,4 +99,5 @@ public final class OutputView {
     private static String createGameResultTitleMessage() {
         return "실행 결과";
     }
+
 }

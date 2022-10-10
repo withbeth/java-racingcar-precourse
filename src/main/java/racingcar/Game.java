@@ -6,11 +6,13 @@ import java.util.List;
 public final class Game {
 
     private final Cars cars;
-    private int coins;
+    private final PositiveNumber maxPlayCount;
+    private PositiveNumber currentPlayCount;
 
-    public Game(final List<String> carNames, final int playCoins) {
-        this.cars = CarFactory.getDefaultCars(carNames);
-        this.coins = playCoins;
+    public Game(final Cars cars, final PositiveNumber maxPlayCount) {
+        this.cars = cars;
+        this.maxPlayCount = maxPlayCount;
+        this.currentPlayCount = PositiveNumber.ONE;
     }
 
     private static List<CarStatusDto> mapToCarStatuses(final List<Car> cars) {
@@ -34,11 +36,15 @@ public final class Game {
             return;
         }
         cars.move();
-        coins--;
+        increasePlayCount();
+    }
+
+    private void increasePlayCount() {
+        currentPlayCount = currentPlayCount.plus(PositiveNumber.ONE);
     }
 
     public boolean isGameOver() {
-        return coins <= 0;
+        return currentPlayCount.isGreaterThan(maxPlayCount);
     }
 
     public List<CarStatusDto> getCarsStatus() {
@@ -48,4 +54,5 @@ public final class Game {
     public List<String> getWinners() {
         return mapToCarNames(cars.getFarthestMovedCars());
     }
+
 }

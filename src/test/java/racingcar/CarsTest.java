@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,7 +32,10 @@ public class CarsTest {
     @Test
     void nullCarNames() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> CarFactory.getDefaultCars(null))
+            .isThrownBy(() -> CarFactory.getDefaultCars((List<String>) null))
+            .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> CarFactory.getDefaultCars((String) null))
             .withMessageContaining(EXCEPTION_MESSAGE_PREFIX);
     }
 

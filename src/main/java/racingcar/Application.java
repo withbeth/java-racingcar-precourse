@@ -1,29 +1,55 @@
 package racingcar;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Application {
 
     public static void main(final String[] args) {
-
-        System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
-        // TODO : Create Views and Validation Util class
-        final List<String> carNames = Arrays.asList("foo", "bar", "fifty", "beth");
-        System.out.println(carNames.toString());
-
-        System.out.println("시도할 회수는 몇회인가요?");
-        final int playCoins = 5;
-        System.out.println(playCoins);
+        final Cars cars = getValidCarsFromInput();
+        final PositiveNumber playCount = getValidPlayCountFromInput();
 
         OutputView.printDivider();
-        final Game game = new Game(carNames, playCoins);
         OutputView.printGameResultTitle();
+        final Game game = new Game(cars, playCount);
         while (!game.isGameOver()) {
             game.play();
             OutputView.printCarsStatus(game.getCarsStatus());
             OutputView.printDivider();
         }
         OutputView.printWinners(game.getWinners());
+    }
+
+    private static Cars getValidCarsFromInput() {
+        Cars cars = null;
+        while (cars == null) {
+            cars = createCarsFromInput();
+        }
+        return cars;
+    }
+
+    private static Cars createCarsFromInput() {
+        final String carNames = InputView.getCarNames();
+        try {
+            return CarFactory.getDefaultCars(carNames);
+        } catch (final IllegalArgumentException exception) {
+            OutputView.printException(exception);
+            return null;
+        }
+    }
+
+    private static PositiveNumber getValidPlayCountFromInput() {
+        PositiveNumber positiveNumber = null;
+        while (positiveNumber == null) {
+            positiveNumber = createPositiveNumberFromInput();
+        }
+        return positiveNumber;
+    }
+
+    private static PositiveNumber createPositiveNumberFromInput() {
+        final String playCount = InputView.getPlayCount();
+        try {
+            return new PositiveNumber(playCount);
+        } catch (final IllegalArgumentException exception) {
+            OutputView.printException(exception);
+            return null;
+        }
     }
 }
