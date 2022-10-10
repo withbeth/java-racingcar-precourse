@@ -29,13 +29,13 @@ public final class CarFactory {
         return getCar(carName, getDefaultCarMovePolicy(), getDefaultCarMoveCondition());
     }
 
+    public static Cars getCars(final List<Car> cars) {
+        return new Cars(cars);
+    }
+
     public static Cars getDefaultCars(final List<String> carNames) {
         return getCars(
             mapToCarList(carNames, getDefaultCarMovePolicy(), getDefaultCarMoveCondition()));
-    }
-
-    public static Cars getCars(final List<Car> cars) {
-        return new Cars(cars);
     }
 
     private static List<Car> mapToCarList(

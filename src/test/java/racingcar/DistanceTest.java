@@ -2,15 +2,24 @@ package racingcar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class DistanceTest {
 
+    @Test
+    void equals_null() {
+        assertThat(Distance.ZERO.equals(null))
+            .isFalse();
+        assertThat(Distance.ONE.equals(null))
+            .isFalse();
+    }
+
     @ParameterizedTest
     @ValueSource(ints = {-10, -5 - 2, -1, 0, 1, 2, 5, 10})
-    void equals(final int value) {
+    void equals_nonNull(final int value) {
         assertThat(Distance.from(value))
             .isEqualTo(Distance.from(value));
     }
@@ -57,25 +66,25 @@ public class DistanceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-10, -5 - 2, -1, 0, 1, 2, 5, 10})
-    void isGreaterThanOrEqual_null(final int value) {
-        assertThat(Distance.from(value).isGreaterThanOrEqual(null))
+    void isGreaterThan_null(final int value) {
+        assertThat(Distance.from(value).isGreaterThan(null))
             .isFalse();
     }
 
     @ParameterizedTest
     @CsvSource(value = {"-2:-1", "-1:0", "0:1", "1:2"}, delimiter = ':')
-    void isGreaterThanOrEqual_differentValue(final int smallerValue, final int value) {
-        assertThat(Distance.from(smallerValue).isGreaterThanOrEqual(Distance.from(value)))
+    void isGreaterThan_differentValue(final int smallerValue, final int value) {
+        assertThat(Distance.from(smallerValue).isGreaterThan(Distance.from(value)))
             .isFalse();
-        assertThat(Distance.from(value).isGreaterThanOrEqual(Distance.from(smallerValue)))
+        assertThat(Distance.from(value).isGreaterThan(Distance.from(smallerValue)))
             .isTrue();
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-10, -5 - 2, -1, 0, 1, 2, 5, 10})
-    void isGreaterThanOrEqual_sameValue(final int value) {
-        assertThat(Distance.from(value).isGreaterThanOrEqual(Distance.from(value)))
-            .isTrue();
+    void isGreaterThan_sameValue(final int value) {
+        assertThat(Distance.from(value).isGreaterThan(Distance.from(value)))
+            .isFalse();
     }
 
 }

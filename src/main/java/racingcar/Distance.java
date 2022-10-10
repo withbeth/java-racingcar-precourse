@@ -31,11 +31,11 @@ public class Distance {
         return this.value < other.value;
     }
 
-    public boolean isGreaterThanOrEqual(final Distance other) {
+    public boolean isGreaterThan(final Distance other) {
         if (other == null) {
             return false;
         }
-        return this.value >= other.value;
+        return this.value > other.value;
     }
 
     @Override

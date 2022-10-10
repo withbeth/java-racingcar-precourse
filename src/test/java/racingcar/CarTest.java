@@ -14,7 +14,7 @@ public class CarTest {
     // TODO
     private static final String EXCEPTION_MESSAGE_PREFIX = "[ERROR]";
 
-    private static final MovePolicy GIANT_MOVE_POLICY = () -> Distance.from(75);
+    private static final MovePolicy GIANT_STEP_MOVE_POLICY = () -> Distance.from(75);
     private static final MoveCondition ALWAYS_MOVE_CONDITION = () -> true;
 
     @Test
@@ -37,7 +37,7 @@ public class CarTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"f", "fo", "foo", "foob", "fooba"})
+    @ValueSource(strings = {"f", "fo", "foo", "foob", "fooba", "1", "12", "123", "1234", "12345"})
     void validName(final String validName) {
         assertThatCode(() -> CarFactory.getDefaultCar(validName))
             .doesNotThrowAnyException();
@@ -86,7 +86,7 @@ public class CarTest {
     void move_customPolicy_defaultCondition() {
         final Car car = CarFactory.getCar(
             "beth",
-            GIANT_MOVE_POLICY,
+            GIANT_STEP_MOVE_POLICY,
             CarFactory.getDefaultCarMoveCondition());
         assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
         car.move();
@@ -97,7 +97,7 @@ public class CarTest {
     void move_customPolicy_customCondition() {
         final Car car = CarFactory.getCar(
             "beth",
-            GIANT_MOVE_POLICY,
+            GIANT_STEP_MOVE_POLICY,
             ALWAYS_MOVE_CONDITION);
 
         assertThat(car.getDistance()).isEqualTo(Distance.ZERO);
@@ -112,7 +112,7 @@ public class CarTest {
     void move_movingForwardBasedOnPolicyAndCondition(final int count) {
         final Car car = CarFactory.getCar(
             "beth",
-            GIANT_MOVE_POLICY,
+            GIANT_STEP_MOVE_POLICY,
             ALWAYS_MOVE_CONDITION);
         for (int i = 0; i < count; i++) {
             Distance prevDistance = car.getDistance();
@@ -122,8 +122,8 @@ public class CarTest {
             assertThat(car.getDistance()).isEqualTo(prevDistance.plus(Distance.from(75)));
 
             prevDistance = car.getDistance();
-        }
 
+        }
     }
 
 }
