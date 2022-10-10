@@ -52,11 +52,11 @@
 
 ### Contoller
 
-[] InputView로부터 입력 받은 이름들을 통해, 해당 이름의 자동차 개체 들을 생성 할 수 있다.
+[x] InputView로부터 입력 받은 이름들을 통해, 해당 이름의 자동차 개체 들을 생성 할 수 있다.
 
-[] InputView로부터 입력 받은 플레이 횟수만큼, 자동차 경주게임을 플레이 할 수 있다.
+[x] InputView로부터 입력 받은 플레이 횟수만큼, 자동차 경주게임을 플레이 할 수 있다.
 
-[] 자동차경주게임가 끝나면, 가장 멀리 전진한 차들을 우승자로서 OutPutView에 전달 할 수 있다.
+[x] 자동차경주게임가 끝나면, 가장 멀리 전진한 차들을 우승자로서 OutPutView에 전달 할 수 있다.
 
 ### View
 
@@ -159,9 +159,14 @@ Position은 데카트르 좌표계를 가지는 의미로 해석될 수 있으�
 
 ### Review : Role of @FunctionalInterface
 
+- 궁금했던 점:
+
+  - 해당 어노테이션 쓰지 않고도 람다를 이용해 사용가능한데, 굳이 어노테이션을 써야 하는 이유. 마커 어노테이션이라서?
 - 목적:
+
   - 함수형 인터페이스 부합여부 확인 어노테이션
 - How it works:
+
   - 둘 이상의 추상 메서드가 존재한다면, 컴파일시 오류 발생
   - static이나 default 선언이 붙은 메서드의 경우 추상메서드가 아니기에 카운트 하지 않는다
 
@@ -177,12 +182,12 @@ First Class Citizen 은 아래의 속성들을 모주 만족해야 한다.
 
 메서드는 위 조건의 모두를 만족하지 않으므로 일급객체가 아니지만, Functional Object를 이용하여 유사한 동작은 흉내 가능하다.
 
-### HashSet and TreeSet의 개체 비교방법
+### Review : HashSet and TreeSet의 개체 비교방법
 
 - HashSet: use equals
 - TreeSet: use compareTo(@Comparable)
 
-### CompareTo() 동치성 규약
+### Review : CompareTo() 동치성 규약
 
 What?
 
@@ -191,3 +196,35 @@ What?
 Why?
 
 - 비교하는 컬렉션중, eqauls로 비교하는 컬렉션(e.g, HashSet. 아마 순서가 필요없으니)과, compareTo로 비교하는 컬렉션이 나눠져있기에(e.g, TreeSet)
+
+### Question : Stream API Filter기능을 API쓰지않고, 1 depth로 작성하기
+
+구현자체는 가능했지만, 과연 올바른 구현 방법인가에 대한 의문은 든다.
+
+이유: addToListIfMatched(List, Item, Predicate)메서드에서, 인자로 받은 리스트에 아이템을 계속 추가시키는, 쉽게 말하면 상태를 계속 변경시키는 동작을 하기에, 리스트의 상태변화 추적이 어려울 것이라 생각된다.
+
+```java
+    private static <T> void addToListIfMatched(
+        final List<T> list,
+        final T item,
+        final Predicate<T> predicate
+    ) {
+        if (predicate.test(item)) {
+            list.add(item);
+        }
+    }
+
+    private static <T> List<T> filter(final List<T> list, final Predicate<T> predicate) {
+        final List<T> result = new ArrayList<>();
+        for (final T item : list) {
+            addToListIfMatched(result, item, predicate);
+        }
+        return result;
+    }
+
+    public List<Car> getFarthestMovedCars() {
+        final Car farthestMovedCar = getFarthestMovedCar();
+        // Note : 자동차 개체 상태 변경 방지를 위해 immutable list 반환
+        return Collections.unmodifiableList(filter(cars, farthestMovedCar::isSamelyMovedWith));
+    }
+```

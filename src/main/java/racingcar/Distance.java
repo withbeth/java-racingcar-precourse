@@ -2,7 +2,7 @@ package racingcar;
 
 import java.util.Objects;
 
-public class Distance {
+public final class Distance {
 
     public static final Distance ZERO = Distance.from(0);
     public static final Distance ONE = Distance.from(1);

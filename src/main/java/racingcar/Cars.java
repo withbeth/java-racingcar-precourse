@@ -62,6 +62,11 @@ public final class Cars {
         cars.forEach(Car::move);
     }
 
+    public List<Car> getCars() {
+        // Note : 자동차 개체 상태 변경 방지를 위해 immutable list 반환
+        return Collections.unmodifiableList(cars);
+    }
+
     public List<Car> getFarthestMovedCars() {
         final Car farthestMovedCar = getFarthestMovedCar();
         // Note : 자동차 개체 상태 변경 방지를 위해 immutable list 반환

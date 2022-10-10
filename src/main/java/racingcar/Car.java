@@ -69,6 +69,10 @@ public final class Car {
         return distance.equals(other.getDistance());
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Distance getDistance() {
         return distance;
     }
